@@ -1,0 +1,158 @@
+.search-area {
+	width: 30%;
+	float: left;
+	background: rgb(232, 232, 232);
+	border: 1px solid darkgray;
+	padding: 5px;
+	height: 95%;
+	position: fixed;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.result-area {
+	margin-left: 32%;
+	height: 100%;
+}
+
+span.stars,span.stars span {
+	display: block;
+	background: url(stars.png) 0 0px repeat-x;
+	width: 80px;
+	height: 16px;
+}
+
+.hotel-result {
+	margin: 10px;
+	padding: 2px;
+	background: rgb(242, 242, 242);
+	border: 1px solid rgb(226, 226, 226);
+	padding: 2px;
+}
+
+.oldprice {
+	text-decoration: line-through;
+	font-size: 26px;
+	color: rgb(94, 94, 94);
+}
+
+.hotel-image {
+	width: 80px;
+	height: 80px;
+}
+
+.col2 {
+	width: 350px;
+	font-weight: bold;
+	font-size: 20px;
+	padding-left: 1%;
+}
+
+.hotellocation {
+	word-wrap: break-word;
+	max-width: 200px;
+}
+
+.search-header {
+	font-size: 24px;
+	color: red;
+	margin-left: 3%;
+}
+
+.search-fields {
+	background: #176FAD;
+	color: #D8D8D8;
+	padding: 4% 7% 5% 5%;
+	margin-left: 3%;
+}
+
+.search-btn {
+	margin-top: 10%;
+	margin-left: 32%;
+	border: 1px solid #99A7B0;
+	background: #41A8CD;
+	padding: 3.5px 19px;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 8px;
+	color: white;
+	font-size: 24px;
+	text-decoration: none;
+	margin-left: 32%;
+}
+
+.info {
+	color: rgb(82, 82, 82);
+	font-size: 13px;
+}
+
+.newprice {
+	font-size: 26px;
+	color: rgb(94, 94, 94);
+}
+
+#overlay {
+	position: fixed;
+	left: 5px;
+	top: 10px;
+	bottom: 5px;
+	right: 12px;
+	background: #000;
+	opacity: 0.8;
+	filter: alpha(opacity =         80);
+	margin-left: 32%;
+	top: 10px;
+	bottom: 5px;
+	right: 12px;
+}
+
+#loading {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -28px 0 0 -25px;
+	width: 26px;
+}
+
+.btn {
+	margin-bottom: 10px;
+	margin-left: 56%;
+	border: 1px solid #99A7B0;
+	background: #41A8CD;
+	padding: 0.5px 19px;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 8px;
+	color: white;
+	font-size: 24px;
+	text-decoration: none;
+	margin-left: 56%;
+}
+
+.rangeamount {
+	border: 0;
+	color: #f6931f;
+	font-weight: bold;
+	background: transparent;
+}
+
+#slider {
+	width: 90%;
+	margin-left: 5%;
+	margin-top: 10px;
+}
+
+.spinner {
+	width: 60px;
+}
+
+.userrating {
+	font-weight: bold;
+	font-size: 19px;
+	color: dimgrey;
+}
+
+.noresult {
+	font-size: 26px;
+	color: rgb(98, 98, 98);
+}

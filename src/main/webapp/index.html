@@ -1,0 +1,192 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="jquery-ui.css">
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="jquery-ui.js"></script>
+<script>
+	var minPrice=0;
+	var maxPrice=5000;
+	var roomSpinner;
+	var minrating;
+	var maxrating;
+	$(function() {
+		$(".datepicker").datepicker();
+		roomSpinner=$( "#roomsspinner" ).spinner();
+		minrating=$( "#minrating" ).spinner();
+		maxrating=$( "#maxrating" ).spinner();
+		
+		
+		$( "#amount" ).val( "$" + minPrice + " - $" + maxPrice );
+		$( "#slider" ).slider({
+	        range: true,
+	        min: minPrice,
+	        max: maxPrice,
+	        values: [ minPrice, maxPrice ],
+	        slide: function( event, ui ) {
+	          $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+	          minPrice=ui.values[ 0 ];
+	          maxPrice=ui.values[ 1 ];
+	        }
+	      });
+		$( "#amount" ).val( "$" + minPrice + " - $" + maxPrice );
+		$('#minrating').spinner('option', 'min', 1);
+		$('#minrating').spinner('option', 'max', 5);
+		$('#maxrating').spinner('option', 'min', 1);
+		$('#maxrating').spinner('option', 'max', 5);
+		$(".spinner").focus(function () {
+		    $(this).blur();
+		});
+	});
+	function run() {
+		var over = '<div id="overlay">'
+				+ '<img id="loading" src="loading.gif">' + '</div>';
+		$(over).appendTo('#results');
+
+		$.ajax({
+					type : "POST",
+					dataType : 'json',
+					data : {
+						city : $('#city').val(),
+						streetAddress : $('#location').val(),
+						minTotalRate : minPrice,
+						maxTotalRate : maxPrice,
+						room	:	roomSpinner.spinner( "value" ),
+						maxStarRating:maxrating.spinner( "value" ),
+						minStarRating:minrating.spinner( "value" )
+					},
+					url : "HotelDealsService",
+					success : function(data) {
+						$('#results').html('');
+						if(data==null || data.length==0){
+							$('#results').html('<div id="noresults"><span class="noresult">Sorry!! No Result Found. Please try again with different location.<span></div>');
+						}
+						var items = [];
+						var elem = '';
+						
+						$.each(	data,function(key, val) {
+											elem = '<div id="'+key+'" class="hotel-result">'
+													+ '<table>'
+													+ '<tr>'
+													+ '<td rowspan="4"> <img src="'+val.imageUrl+'" class="hotel-image">	</td><tr><td class="col2">'
+
+													+ '<a href="'
+													+ decodeURIComponent(val.dealDeepLink)
+													+ '" target="_blank"  >'
+													+ val.name
+													+ '</a></td><td>'
+													+ '<span class="userrating">User Rating:'
+													+ val.guestRating
+													+ '<span></td></tr><tr><td>'
+													+ '<span class="stars" style="width:'+16*val.starRating+'px"">'
+													+ '</span></td><td>'
+													+ '<span class="oldprice" style="display:';
+											if (parseFloat(val.originalPricePerNight) == parseFloat(val.pricePerNight)) {
+												elem += 'none';
+											} else {
+												elem += 'block';
+											}
+											elem += '">'
+													+ val.currency
+													+ ' '
+													+ val.originalPricePerNight
+													+ '<span></td></tr><tr><td class="hotellocation">'
+													+ val.longDestinationName
+													+ '</td><td>'
+													+ '<span class="newprice">'
+													+ val.currency
+													+ ' '
+													+ val.pricePerNight
+													+ '</span><span class="info"> Price per night</span></td></tr><tr><td>'
+													+ '</tr><tr><td></td><td></td><td><a class="btn"  target="_blank" href="'
+													+ decodeURIComponent(val.dealDeepLink)
+													+ '">Book</a></td></tr><table>'
+													+ '</div>';
+											$('#results').append(elem);
+											
+										});
+
+					},
+					error : function() {
+						$('#overlay').remove();
+						alert('Some Error occured. Please try again!')
+						//	console.log("Some error occured..!");
+					}
+
+				});
+	}
+</script>
+</head>
+<body>
+	<div class="search-area">
+
+
+		<span class="search-header">Search Awesome Hotel Deals</span>
+
+		<table class="search-fields">
+			<tr>
+				<td>Enter City:</td><td><input type="text" id="city" />
+				</td>
+			</tr>
+			<tr>
+				<td>Location:</td><td><input type="text" id="location" />
+				</td>
+			</tr>
+			<tr>
+				<td>Check-in Date: </td><td><input id="checkindate" type="text"
+					class="datepicker">
+				</td>
+			</tr>
+			<tr>
+				<td>Check-out Date: </td><td><input id="checkoudate" type="text"
+					class="datepicker">
+				</td>
+			</tr>
+			<tr>
+				<td>No of Rooms: </td><td><input id="roomsspinner" name="value" value="1" class="spinner"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Min Star Rating: </td><td><input id="minrating" name="value" value="1" class="spinner"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Max Star Rating: </td><td><input id="maxrating" name="value" value="5" class="spinner"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Price range:
+				</td>
+				 <td>
+				  <input type="text" id="amount" readonly class="rangeamount">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<div id="slider"></div>
+				</td>
+			</tr>
+			<!-- <tr>
+				<td>Min Total Rate:</td><td><input type="text"
+					id="minTotalRate" /></td>
+			</tr>
+			<tr>
+				<td>Max Total Rate:</td><td><input type="text"
+					id="maxTotalRate" /></td>
+			</tr> -->
+			<tr>
+				<td></td>
+				<td><input type="button" class="search-btn" value="Search"
+					onclick="run();return false;" /></td>
+			</tr>
+			</tr>
+		</table>
+
+
+
+	</div>
+	<div id="results" class="result-area"></div>
+
+</body>
+</html>
