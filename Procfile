@@ -1,1 +1,1 @@
-web: java -jar target/dependency/webapp-runner.jar --expand-war target/HotelDeals-0.0.1-SNAPSHOT.war
+web: java -jar target/dependency/webapp-runner.jar target/HotelDeals-0.0.1-SNAPSHOT.war
